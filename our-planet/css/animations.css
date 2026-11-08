@@ -1,0 +1,26 @@
+/* =====================================================================
+   OUR PLANET — анимации
+   ===================================================================== */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 10px 40px rgba(255, 159, 203, .35), 0 0 0 0 rgba(255, 217, 138, .35); }
+  50% { box-shadow: 0 10px 50px rgba(255, 159, 203, .55), 0 0 0 12px rgba(255, 217, 138, 0); }
+}
+@keyframes bump {
+  0% { transform: scale(1); } 30% { transform: scale(1.12); box-shadow: 0 0 30px rgba(255, 217, 138, .5); } 100% { transform: scale(1); }
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); } 15% { transform: scale(1.2); } 30% { transform: scale(1); } 45% { transform: scale(1.14); } 60% { transform: scale(1); }
+}
+@keyframes sealPulse {
+  0%, 100% { box-shadow: 0 6px 18px rgba(120, 20, 60, .5), 0 0 0 0 rgba(255, 159, 203, .5), inset 0 -3px 6px rgba(0, 0, 0, .25); }
+  50% { box-shadow: 0 6px 18px rgba(120, 20, 60, .5), 0 0 0 14px rgba(255, 159, 203, 0), inset 0 -3px 6px rgba(0, 0, 0, .25); }
+}
+@keyframes loaderSpin { to { transform: rotate(360deg); } }
+@keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+.loader-orb { animation: floatY 2.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; }
+}

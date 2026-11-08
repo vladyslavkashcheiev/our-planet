@@ -1,0 +1,76 @@
+/* =====================================================================
+   OUR PLANET — адаптация (iPhone в первую очередь)
+   ===================================================================== */
+
+/* Планшеты и узкие ноутбуки */
+@media (max-width: 900px) {
+  .loc-card { bottom: calc(80px + var(--sab)); }
+}
+
+/* Телефоны */
+@media (max-width: 640px) {
+  .topbar { padding: calc(10px + var(--sat)) calc(14px + var(--sar)) 0 calc(14px + var(--sal)); }
+  .brand-name { font-size: 18px; }
+  .brand-tag { font-size: 8.5px; letter-spacing: .26em; }
+  .brand-mark { width: 26px; height: 26px; }
+  .top-actions { gap: 6px; }
+
+  /* нижняя панель: счётчик сверху, кнопки снизу */
+  .bottombar {
+    flex-wrap: wrap; justify-content: center; gap: 8px;
+    padding: 0 calc(12px + var(--sar)) calc(12px + var(--sab)) calc(12px + var(--sal));
+  }
+  .hint { order: 0; width: 100%; justify-content: center; background: transparent; padding: 0 0 2px; font-size: 12.5px; }
+  .counter { order: 1; padding: 8px 12px; gap: 8px; letter-spacing: .14em; font-size: 9.5px; }
+  .counter-dots { display: none; }
+  .bottom-actions { order: 2; }
+  .pill-btn { min-height: 44px; padding: 0 13px; font-size: 13px; }
+  .hud.compact .counter-label { display: none; }
+
+  .story-wrap { top: calc(64px + var(--sat)); bottom: auto; }
+
+  /* карточка места — снизу на всю ширину */
+  .loc-card {
+    left: calc(10px + var(--sal)); right: calc(10px + var(--sar)); width: auto;
+    bottom: calc(146px + var(--sab));
+    padding: 16px 16px 14px; border-radius: 20px;
+  }
+  .loc-title { font-size: 26px; margin-bottom: 6px; }
+  .loc-desc { font-size: 13.5px; margin-bottom: 12px; }
+  .loc-row { flex-wrap: wrap; }
+
+  .label { font-size: 11.5px; padding: 6px 10px 6px 7px; }
+  .bubble { font-size: 19px; top: calc(64px + var(--sat)); }
+
+  .modal { padding: calc(12px + var(--sat)) 10px calc(12px + var(--sab)); align-items: end; }
+  .modal-panel { padding: 30px 18px 22px; border-radius: 26px; }
+  .m-title { font-size: 28px; margin-bottom: 18px; }
+  .carousel-track { height: 220px; }
+  .c-card { padding: 26px 22px; }
+
+  .settings { top: calc(60px + var(--sat)); right: calc(12px + var(--sar)); }
+  .intro-title { bottom: calc(5vh + var(--sab)); }
+  .btn-enter { width: min(320px, 100%); }
+  .toast { bottom: calc(170px + var(--sab)); }
+}
+
+/* Очень узкие экраны (iPhone SE / mini) */
+@media (max-width: 380px) {
+  .pill-btn span { display: none; }
+  .pill-btn { width: 44px; padding: 0; justify-content: center; }
+  .counter { letter-spacing: .1em; }
+}
+
+/* Горизонтальный телефон */
+@media (max-height: 500px) and (orientation: landscape) {
+  .intro-title { bottom: calc(10px + var(--sab)); }
+  .title-main { font-size: 40px; }
+  .title-dates, .title-days { display: none; }
+  .btn-enter { margin-top: 14px; min-height: 48px; }
+  .loc-card { bottom: calc(70px + var(--sab)); max-height: 60vh; overflow: auto; }
+  .loc-desc { display: none; }
+  .story-wrap { bottom: calc(70px + var(--sab)); }
+  .modal-panel { max-height: calc(100vh - 20px); }
+  .carousel-track { height: 150px; }
+  .hint { display: none; }
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#070918">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Our little universe.">
+  <title>Our Planet</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='35%25' cy='35%25'%3E%3Cstop offset='0' stop-color='%23b8f0ff'/%3E%3Cstop offset='.55' stop-color='%236fb6ff'/%3E%3Cstop offset='1' stop-color='%237a5fd0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='22' fill='url(%23g)'/%3E%3Cellipse cx='32' cy='34' rx='30' ry='8' fill='none' stroke='%23ffc0dc' stroke-width='3' transform='rotate(-18 32 32)'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- 3D-сцена -->
+  <canvas id="scene" aria-label="Наша планета"></canvas>
+
+  <!-- Загрузка -->
+  <div id="loader" class="loader">
+    <div class="loader-orb"></div>
+    <p class="loader-text">Создаём вселенную…</p>
+  </div>
+
+  <!-- Первый экран -->
+  <section id="intro" class="intro" aria-live="polite">
+    <div class="intro-lines">
+      <p class="intro-line" data-line="0"></p>
+      <p class="intro-line" data-line="1"></p>
+    </div>
+    <div class="intro-title">
+      <h1 class="title-main" id="intro-title"></h1>
+      <p class="title-tag" id="intro-tag"></p>
+      <p class="title-dates" id="intro-dates"></p>
+      <p class="title-days" id="intro-days"></p>
+      <button class="btn btn-primary btn-enter" id="btn-enter" type="button"></button>
+      <button class="btn-sound-hint" id="btn-sound-hint" type="button">
+        <i data-lucide="music-2"></i><span id="sound-hint-text"></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Интерфейс поверх сцены -->
+  <div id="hud" class="hud" hidden>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <div>
+          <div class="brand-name" id="brand-name"></div>
+          <div class="brand-tag" id="brand-tag"></div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="btn-sound" type="button" aria-label="Звук"><i data-lucide="volume-x"></i></button>
+        <button class="icon-btn" id="btn-settings" type="button" aria-label="Настройки"><i data-lucide="sliders-horizontal"></i></button>
+        <button class="icon-btn" id="btn-fullscreen" type="button" aria-label="Полный экран"><i data-lucide="maximize"></i></button>
+      </div>
+    </header>
+
+    <div class="story-wrap">
+      <button class="btn btn-primary btn-story" id="btn-story" type="button" hidden>
+        <i data-lucide="sparkles"></i><span id="story-text"></span>
+      </button>
+    </div>
+
+    <footer class="bottombar">
+      <div class="hint" id="hint"><i data-lucide="hand"></i><span id="hint-text"></span></div>
+      <div class="counter" id="counter">
+        <span class="counter-label" id="counter-label"></span>
+        <span class="counter-value"><b id="counter-num">0</b> / 5</span>
+        <span class="counter-dots" id="counter-dots"></span>
+      </div>
+      <div class="bottom-actions">
+        <button class="pill-btn" id="btn-overview" type="button"><i data-lucide="globe-2"></i><span id="overview-text"></span></button>
+        <button class="pill-btn pill-home" id="btn-home" type="button"><i data-lucide="house"></i><span id="home-text"></span></button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Подписи мест на планете -->
+  <div id="labels" class="labels" hidden></div>
+
+  <!-- Карточка выбранного места -->
+  <aside id="loc-card" class="loc-card" hidden>
+    <button class="loc-close" id="loc-close" type="button" aria-label="Закрыть"><i data-lucide="x"></i></button>
+    <div class="loc-kicker" id="loc-kicker"></div>
+    <h2 class="loc-title" id="loc-title"></h2>
+    <p class="loc-desc" id="loc-desc"></p>
+    <div class="loc-row">
+      <span class="loc-action" id="loc-action"></span>
+      <button class="btn btn-small" id="loc-open" type="button"><span id="loc-open-text"></span><i data-lucide="arrow-right"></i></button>
+    </div>
+  </aside>
+
+  <!-- Всплывающее сообщение леса -->
+  <div id="bubble" class="bubble" hidden><span id="bubble-text"></span></div>
+
+  <!-- Модальное окно -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <button class="modal-close" type="button" data-close aria-label="Закрыть"><i data-lucide="x"></i></button>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Письмо -->
+  <div id="letter" class="letter-overlay" hidden>
+    <div class="letter-stage">
+      <div class="envelope" id="envelope">
+        <div class="env-back"></div>
+        <div class="env-paper"></div>
+        <div class="env-front"></div>
+        <div class="env-flap"></div>
+        <button class="env-seal" id="env-seal" type="button" aria-label="Открыть письмо">❤</button>
+        <p class="env-hint">Нажми на печать</p>
+      </div>
+      <article class="letter-paper" id="letter-paper" hidden>
+        <div class="letter-inner" id="letter-inner"></div>
+      </article>
+    </div>
+    <button class="letter-close btn" id="letter-close" type="button"><i data-lucide="arrow-left"></i><span>Вернуться на планету</span></button>
+  </div>
+
+  <!-- Финал -->
+  <div id="finale" class="finale" hidden>
+    <div class="finale-lines" id="finale-lines"></div>
+    <div class="finale-end" id="finale-end">
+      <h2 class="title-main" id="finale-title"></h2>
+      <p class="title-tag" id="finale-tag"></p>
+      <p class="finale-closing" id="finale-closing"></p>
+      <div class="finale-heart">❤️</div>
+      <button class="btn" id="finale-back" type="button"><i data-lucide="orbit"></i><span id="finale-back-text"></span></button>
+    </div>
+  </div>
+
+  <!-- Настройки -->
+  <div id="settings" class="settings" hidden>
+    <div class="settings-panel">
+      <label class="switch-row">
+        <span id="light-label"></span>
+        <input type="checkbox" id="opt-light"><span class="switch"></span>
+      </label>
+      <div class="settings-line"><span id="secrets-label"></span><b id="secrets-count">0 / 4</b></div>
+      <button class="btn btn-ghost btn-small" id="opt-reset" type="button"><i data-lucide="rotate-ccw"></i><span id="reset-label"></span></button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+  <div id="fade" class="fade"></div>
+
+  <noscript><p class="noscript">Для просмотра нужен JavaScript.</p></noscript>
+
+  <!-- Библиотеки (фиксированные версии) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+
+  <!-- Тексты (редактируйте этот файл) -->
+  <script src="js/content.js"></script>
+
+  <!-- Логика -->
+  <script src="js/utils.js"></script>
+  <script src="js/planet.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/locations.js"></script>
+  <script src="js/camera.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/interactions.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
